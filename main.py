@@ -38,7 +38,6 @@ def share_overtones(note1, note2):
     overtonesN1 = extract_note_names(overtonesN1)
     overtonesN2 = extract_note_names(overtonesN2)
 
-    #print(overtonesN1, overtonesN2, set(overtonesN1) & set(overtonesN2))
     #set is used to remove duplicates
     if bool(set(overtonesN1) & set(overtonesN2)):
         return (set(overtonesN1) & set(overtonesN2))
@@ -49,9 +48,8 @@ def share_overtones(note1, note2):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('note', nargs='*')
-    # parser.add_argument('-h', help='Usage is python main.py [Reference Notes] [flag] [Notes to check]')
     parser.add_argument('-l', '--list-overtones', action='store_true', help="List the overtones for the specified notes")
-    parser.add_argument('-c', '--check-overtone', nargs='+', help="Check if any of the notes after the flag are overtones of the note before the flag")
+    parser.add_argument('-c', '--check-overtones', nargs='+', help="Check if any of the notes after the flag are overtones of the note before the flag")
     parser.add_argument('-s', '--share-overtones', nargs='+', help="Check if any of the notes after the flag share overtones with the note before the flag")
     
     #parse the command-line arguments
@@ -61,11 +59,11 @@ if __name__ == "__main__":
     if args.note == []:
         raise Exception("No notes specified")
 
-    if args.check_overtone:
+    if args.check_overtones:
         reference = args.note
         for refnote in reference:
             fail_list = []
-            for checkednote in args.check_overtone:
+            for checkednote in args.check_overtones:
                 result = is_overtone(checkednote, refnote)
                 if result:
                     print(f"{checkednote} is the {make_ordinal(result)} overtone of {refnote}")
