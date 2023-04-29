@@ -1,2 +1,31 @@
 # OvertoneDB
+
  Program to supply information about the overtones of musical notes
+
+## Installing
+Download and install python [here](https://www.python.org/downloads/)
+
+## Setup
+
+1. Clone the repo
+```sh
+git clone https://github.com/j-weatherwax/OvertoneDB.git
+cd OvertoneDB
+```
+2. Running the project
+```python
+python main.py [Reference Notes] [flag] [Notes to Check]
+```
+If you want to change the overtone database, delete notes.db before modifying createDB.py.
+
+3. All Command Line Arguments
+
+|Argument Command|Example Usage|Description|
+|----|----|----|
+|-h, --help|main.py -h|Shows help message and usage information|
+|-l, --list-overtones|main.py C1 -l|Lists the overtones for the given notes|
+|-c, --check-overtones|main.py C1 -c C4 D2 G5|Checks if any of the notes after -c are overtones of the notes before the flag|
+|-s, --share-overtones|main.py C1 -s C4 D2 G5|Checks if any of the notes after -s share overtones with the notes before the flag|
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
