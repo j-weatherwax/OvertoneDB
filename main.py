@@ -1,14 +1,15 @@
 import argparse
 import sqlite3
+import sys
 
 def get_overtones(note_name):
     conn = sqlite3.connect('notes.db')
     cursor = conn.cursor()
-    cursor.execute(f"SELECT overtone1, overtone2, overtone3, overtone4, overtone5 FROM notes WHERE name = '{note_name}';")
+    cursor.execute(f"SELECT notes.overtones FROM notes WHERE name = '{note_name}';")
     result = cursor.fetchone()
     conn.close()
-    #result is originally a tuple. It needs to be a list for later comparisons
-    return list(result)
+    #result is originally a single string inside of a tuple. It needs to be a list for later comparisons
+    return (result[0].split(","))
 
 def make_ordinal(n):
     suffix = ['th', 'st', 'nd', 'rd', 'th'][min(int(n) % 10, 4)]

@@ -14,7 +14,7 @@ def hz_to_note_name(frequency):
     note_name = midi_to_note_name(midi_note)
     return note_name
 
-def get_overtones(note_name, octave):
+def get_overtones(note_name, octave, num_overtones):
     # notes used are in the 0th octave
     notes = {
         'C': 16.35160,
@@ -35,43 +35,43 @@ def get_overtones(note_name, octave):
     #round frequency to 2 digits
     frequency = round(Decimal(frequency), 2)
 
-    overtones = [frequency * (1 + n) for n in range(1, 6)]
+    overtones = [frequency * (1 + n) for n in range(1, num_overtones + 1)]
     return overtones
 
-# Connect to the database
-conn = sqlite3.connect('notes.db')
+if __name__ == "__main__":
+    # Connect to the database
+    conn = sqlite3.connect('notes.db')
 
-# Create the notes table if it doesn't exist
-conn.execute('''
-    CREATE TABLE IF NOT EXISTS notes (
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        overtone1 TEXT NOT NULL,
-        overtone2 TEXT NOT NULL,
-        overtone3 TEXT NOT NULL,
-        overtone4 TEXT NOT NULL,
-        overtone5 TEXT NOT NULL
-    );
-''')
-
-#Populate the notes table with MIDI note numbers
-midinotes = range(21, 128)
-for midinote in midinotes:
-    note_name = midi_to_note_name(midinote)
-    overtones = get_overtones(note_name[:-1], note_name[-1])
-    
-    for idx, _ in enumerate(overtones):
-        name = hz_to_note_name(overtones[idx])
-        overtones[idx] = f"{name}: " + str(overtones[idx])
-    
+    # Create the notes table if it doesn't exist
     conn.execute('''
-        INSERT INTO notes (name, overtone1, overtone2, overtone3, overtone4, overtone5)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', (note_name, *overtones))
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            overtones TEXT NOT NULL
+        );
+    ''')
+
+    num_overtones = int(input("Enter the number of overtones to generate: "))
+
+    #Populate the notes table with MIDI note numbers
+    midinotes = range(21, 128)
+    for midinote in midinotes:
+        note_name = midi_to_note_name(midinote)
+        overtones = get_overtones(note_name[:-1], note_name[-1], num_overtones)
+        
+        for idx, _ in enumerate(overtones):
+            name = hz_to_note_name(overtones[idx])
+            overtones[idx] = f"{name}: " + str(overtones[idx])
+        
+        #Merge overtones list into a single string
+        overtone_str = ",".join(overtones)
+
+        conn.execute('''
+            INSERT INTO notes (name, overtones)
+            VALUES (?, ?)
+        ''', (note_name, overtone_str))
        
 
-
-
-# Commit the changes and close the connection
-conn.commit()
-conn.close()
+    # Commit the changes and close the connection
+    conn.commit()
+    conn.close()

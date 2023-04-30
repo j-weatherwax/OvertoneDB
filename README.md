@@ -13,10 +13,11 @@ git clone https://github.com/j-weatherwax/OvertoneDB.git
 cd OvertoneDB
 ```
 2. Running the project
+Use createDB.py to generate the database.  User is prompted for the amount of overtones written per note.
+
 ```python
-python main.py [Reference Notes] [flag] [Notes to Check]
+main.py [Reference Notes] [flag] [Notes to Check]
 ```
-If you want to change the overtone database, delete notes.db before modifying createDB.py.
 
 3. All Command Line Arguments
 
