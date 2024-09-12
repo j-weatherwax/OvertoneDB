@@ -7,20 +7,19 @@ Download and install python [here](https://www.python.org/downloads/)
 
 ## Setup
 
-1. Clone the repo
+__Clone the repo__
 ```sh
 git clone https://github.com/j-weatherwax/OvertoneDB.git
 cd OvertoneDB
 ```
-2. Running the project
+__Running the project__  
 Use createDB.py to generate the database.  User is prompted for the amount of overtones written per note.
 
 ```python
 main.py [Reference Notes] [flag] [Notes to Check]
 ```
 
-3. All Command Line Arguments
-
+__Command Line Arguments__
 |Argument Command|Example Usage|Description|
 |----|----|----|
 |-h, --help|main.py -h|Shows help message and usage information|
